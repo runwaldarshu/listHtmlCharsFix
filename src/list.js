@@ -286,6 +286,18 @@ var List = function(id, options, values) {
         self.update();
     };
 
+    /**
+     * This method is helper method for replacing special characters to HTML entities.
+     */
+    function escapeHtml(text) {
+      return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+    }
+
     /*
     * Searches the list after values with content "searchStringOrEvent".
     * The columns parameter defines if all values should be included in the search,
@@ -305,6 +317,8 @@ var List = function(id, options, values) {
 
         searchString = (target === undefined) ? (""+searchString).toLowerCase() : ""+target.value.toLowerCase();
         is = self.items;
+        // Replace special characters with html entities
+        searchString = escapeHtml(searchString);
         // Escape regular expression characters
         searchString = searchString.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 
